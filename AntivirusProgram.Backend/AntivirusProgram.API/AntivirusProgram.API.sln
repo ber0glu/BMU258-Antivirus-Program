@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntivirusProgram.API", "AntivirusProgram.API\AntivirusProgram.API.csproj", "{821D55DC-4D9D-4F49-AD78-8131320ECE6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntivirusProgram.Entities", "AntivirusProgram.Entities\AntivirusProgram.Entities.csproj", "{3264CA46-449D-48AC-8C1C-2F3F653B8507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntivirusProgram.Presentation", "AntivirusProgram.Presentation\AntivirusProgram.Presentation.csproj", "{CE63391A-8AFA-419F-B915-CEAEA6FE56F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntivirusProgram.Services", "AntivirusProgram.Services\AntivirusProgram.Services.csproj", "{9001C3D5-59CC-4B0E-A810-E522ADDB02C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntivirusProgram.Repositories", "AntivirusProgram.Repositories\AntivirusProgram.Repositories.csproj", "{8312B7E3-CC4B-4792-AA90-07C75AA9777D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{821D55DC-4D9D-4F49-AD78-8131320ECE6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{821D55DC-4D9D-4F49-AD78-8131320ECE6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{821D55DC-4D9D-4F49-AD78-8131320ECE6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3264CA46-449D-48AC-8C1C-2F3F653B8507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3264CA46-449D-48AC-8C1C-2F3F653B8507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3264CA46-449D-48AC-8C1C-2F3F653B8507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3264CA46-449D-48AC-8C1C-2F3F653B8507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE63391A-8AFA-419F-B915-CEAEA6FE56F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE63391A-8AFA-419F-B915-CEAEA6FE56F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE63391A-8AFA-419F-B915-CEAEA6FE56F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE63391A-8AFA-419F-B915-CEAEA6FE56F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9001C3D5-59CC-4B0E-A810-E522ADDB02C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9001C3D5-59CC-4B0E-A810-E522ADDB02C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9001C3D5-59CC-4B0E-A810-E522ADDB02C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9001C3D5-59CC-4B0E-A810-E522ADDB02C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8312B7E3-CC4B-4792-AA90-07C75AA9777D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8312B7E3-CC4B-4792-AA90-07C75AA9777D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8312B7E3-CC4B-4792-AA90-07C75AA9777D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8312B7E3-CC4B-4792-AA90-07C75AA9777D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
