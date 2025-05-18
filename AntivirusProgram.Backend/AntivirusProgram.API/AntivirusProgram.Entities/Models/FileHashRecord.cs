@@ -11,7 +11,7 @@ namespace AntivirusProgram.Entities.Models
     {
         [Key] public int Id { get; set; }
 
-        [Required][MaxLength(40)] public string Sha256 { get; set; }
+        [Required][MaxLength(64)] public string Sha256 { get; set; }
 
         public string FileName { get; set; }
 
