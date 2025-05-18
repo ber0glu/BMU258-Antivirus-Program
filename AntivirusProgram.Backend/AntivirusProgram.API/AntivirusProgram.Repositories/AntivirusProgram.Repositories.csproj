@@ -11,4 +11,8 @@
     <Folder Include="EFCore\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AntivirusProgram.Entities\AntivirusProgram.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

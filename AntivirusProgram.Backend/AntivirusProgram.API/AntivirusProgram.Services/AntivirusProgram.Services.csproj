@@ -10,4 +10,9 @@
     <Folder Include="Abstracts\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AntivirusProgram.Entities\AntivirusProgram.Entities.csproj" />
+    <ProjectReference Include="..\AntivirusProgram.Repositories\AntivirusProgram.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
