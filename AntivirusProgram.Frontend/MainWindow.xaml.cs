@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.Win32;
-using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -65,14 +64,12 @@ namespace AntivirusProgram.Frontend
 
         private void btnSelectDirectory_Click(object sender, RoutedEventArgs e)
         {
-            var folderBrowserDialog = new FolderBrowserDialog
-            {
-                Description = "Select a directory to scan"
-            };
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.Description = "Select a directory to scan";
 
-            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtSelectedPath.Text = folderBrowserDialog.SelectedPath;
+                txtSelectedPath.Text = dialog.SelectedPath;
             }
         }
 
