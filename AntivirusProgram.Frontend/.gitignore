@@ -1,0 +1,27 @@
+## Visual Studio için .gitignore dosyası
+
+# Visual Studio geçici dosyaları
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Build sonuçları
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options dosyaları
+# You can get the latest ignore rules from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore 
