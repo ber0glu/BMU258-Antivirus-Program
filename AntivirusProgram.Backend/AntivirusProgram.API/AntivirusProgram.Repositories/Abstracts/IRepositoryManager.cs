@@ -8,6 +8,7 @@ namespace AntivirusProgram.Repositories.Abstracts
 {
     public interface IRepositoryManager
     {
+        IFileHashRecordRepository FileHashRecordRepository {  get; }
         Task SaveAsync();
     }
 }

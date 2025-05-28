@@ -11,6 +11,7 @@ namespace AntivirusProgram.Entities.Models
     /// </summary>
     public class FileHashRequest
     {
-        public string Sha256 { get; set; }
+        public string? Sha256 { get; set; }
+        public string? MD5 { get; set; }
     }
 }
