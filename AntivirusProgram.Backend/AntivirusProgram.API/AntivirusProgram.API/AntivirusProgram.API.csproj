@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AntivirusProgram.Repositories\AntivirusProgram.Repositories.csproj" />
     <ProjectReference Include="..\AntivirusProgram.Services\AntivirusProgram.Services.csproj" />
   </ItemGroup>
