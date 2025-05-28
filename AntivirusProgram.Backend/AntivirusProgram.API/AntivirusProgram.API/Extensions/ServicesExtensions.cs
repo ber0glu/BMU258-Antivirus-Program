@@ -1,5 +1,7 @@
 ﻿using AntivirusProgram.Repositories.Abstracts;
 using AntivirusProgram.Repositories.EFCore;
+using AntivirusProgram.Services;
+using AntivirusProgram.Services.Abstracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace AntivirusProgram.API.Extensions
@@ -14,6 +16,9 @@ namespace AntivirusProgram.API.Extensions
         /// </summary>
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
                 services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureServiceManager(this IServiceCollection services) =>
+           services.AddScoped<IServiceManager, ServiceManager>();
 
     }
 }
