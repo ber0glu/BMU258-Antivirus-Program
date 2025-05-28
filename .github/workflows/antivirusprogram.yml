@@ -14,19 +14,25 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Restore
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
-    - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-    - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
-    - name: Publish
-      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
-    - name: Publish Artifacts
+
+    - name: Restore dependencies
+      run: dotnet restore AntivirusProgram.Backend/AntivirusProgram.API/AntivirusProgram.API.sln
+
+    - name: Build solution
+      run: dotnet build AntivirusProgram.Backend/AntivirusProgram.API/AntivirusProgram.API.sln --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Run tests
+      run: dotnet test AntivirusProgram.Backend/AntivirusProgram.API/AntivirusProgram.API.sln --no-build --verbosity normal
+
+    - name: Publish application
+      run: dotnet publish AntivirusProgram.Backend/AntivirusProgram.API/AntivirusProgram.API/AntivirusProgram.API.csproj --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: webapp
