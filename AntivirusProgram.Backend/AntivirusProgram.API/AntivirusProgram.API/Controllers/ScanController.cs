@@ -18,7 +18,7 @@ namespace AntivirusProgram.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Test deneme");
+            return Ok("I love you Ömer");
         }
     }
 }
