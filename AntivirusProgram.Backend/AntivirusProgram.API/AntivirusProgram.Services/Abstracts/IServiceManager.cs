@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace AntivirusProgram.Services.Abstracts
 {
-    internal interface IServiceManager
+    public interface IServiceManager
     {
+        IFileHashRecordService FileHashRecordService { get; }
+
     }
 }
