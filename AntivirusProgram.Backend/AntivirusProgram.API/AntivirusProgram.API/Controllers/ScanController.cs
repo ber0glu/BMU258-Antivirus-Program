@@ -34,9 +34,7 @@ namespace AntivirusProgram.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVirus(string hash, string? fileName = null)
         {
-            if (string.IsNullOrWhiteSpace(hash))
-                return BadRequest("Hash değeri boş olamaz.");
-            return StatusCode(201, await _service.FileHashRecordService.CreateVirusAsync(hash, fileName));
+            return Ok("Test deneme");
         }
 
     }

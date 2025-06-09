@@ -5,9 +5,110 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AntivirusProgram.Frontend"
         mc:Ignorable="d"
-        Title="Antivirus Scanner" Height="600" Width="800"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="Antivirus Scanner" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#005999"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#CCCCCC"/>
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style TargetType="ProgressBar">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Foreground" Value="#007ACC"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+            <Setter Property="AlternatingRowBackground" Value="#F5F5F5"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#E0E0E0"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#E0E0E0"/>
+            <Setter Property="RowHeight" Value="35"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserSortColumns" Value="True"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -15,16 +116,21 @@
         </Grid.RowDefinitions>
 
         <!-- Header Section -->
-        <StackPanel Grid.Row="0" Margin="10">
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
             <TextBlock Text="Antivirus Scanner" 
-                     FontSize="24" 
+                     FontSize="32" 
                      FontWeight="Bold" 
                      HorizontalAlignment="Center"
-                     Margin="0,0,0,20"/>
+                     Foreground="#007ACC"/>
+            <TextBlock Text="Protect your system from threats" 
+                     FontSize="16" 
+                     HorizontalAlignment="Center"
+                     Margin="0,5,0,0"
+                     Foreground="#666666"/>
         </StackPanel>
 
         <!-- Main Content Section -->
-        <Grid Grid.Row="1" Margin="10">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -32,80 +138,108 @@
             </Grid.RowDefinitions>
 
             <!-- File Selection Section -->
-            <StackPanel Grid.Row="0" Margin="0,0,0,10">
-                <TextBlock Text="Select File or Directory to Scan:" 
-                         FontSize="16" 
-                         Margin="0,0,0,5"/>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <Button x:Name="btnSelectFile" 
-                            Content="Select File" 
-                            Width="120" 
-                            Height="30" 
-                            Margin="0,0,10,0"
-                            Click="btnSelectFile_Click"/>
-                    <Button x:Name="btnSelectDirectory" 
-                            Content="Select Directory" 
-                            Width="120" 
-                            Height="30"
-                            Click="btnSelectDirectory_Click"/>
-                </StackPanel>
-                <TextBlock Text="Selected Path:" 
-                         Margin="0,10,0,5"/>
-                <TextBox x:Name="txtSelectedPath" 
-                        IsReadOnly="True"
-                        Height="25"
-                        Margin="0,0,0,10"
-                        TextWrapping="Wrap"
-                        VerticalScrollBarVisibility="Auto"/>
-                
-                <!-- Progress Section -->
-                <StackPanel Margin="0,10,0,0">
-                    <TextBlock Text="Scan Progress:" 
+            <Border Grid.Row="0" 
+                    Background="White" 
+                    CornerRadius="8" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    BorderThickness="1"
+                    BorderBrush="#E0E0E0">
+                <StackPanel>
+                    <TextBlock Text="Select File or Directory to Scan" 
+                             FontSize="18" 
+                             FontWeight="SemiBold"
+                             Margin="0,0,0,15"/>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button x:Name="btnSelectFile" 
+                                Content="Select File" 
+                                Margin="0,0,10,0"
+                                Click="btnSelectFile_Click"/>
+                        <Button x:Name="btnSelectDirectory" 
+                                Content="Select Directory"
+                                Click="btnSelectDirectory_Click"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Selected Path:" 
                              Margin="0,0,0,5"/>
-                    <ProgressBar x:Name="scanProgressBar" 
-                               Height="20" 
-                               Minimum="0" 
-                               Maximum="100" 
-                               Value="0"/>
-                    <TextBlock x:Name="txtProgressStatus" 
-                             Text="Ready to scan" 
-                             Margin="0,5,0,0"/>
+                    <TextBox x:Name="txtSelectedPath" 
+                            IsReadOnly="True"
+                            Height="30"
+                            Margin="0,0,0,15"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto"/>
+                    
+                    <!-- Progress Section -->
+                    <StackPanel Margin="0,20,0,0">
+                        <TextBlock Text="Scan Progress" 
+                                 FontSize="18"
+                                 FontWeight="SemiBold"
+                                 Margin="0,0,0,15"/>
+                        <ProgressBar x:Name="scanProgressBar" 
+                                   Minimum="0" 
+                                   Maximum="100" 
+                                   Value="0"
+                                   Margin="0,0,0,10"/>
+                        <TextBlock x:Name="txtProgressStatus" 
+                                 Text="Ready to scan" 
+                                 Margin="0,0,0,15"
+                                 FontSize="14"
+                                 HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Scan Button -->
+                    <Button x:Name="btnStartScan"
+                            Content="Start Scan"
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Center"
+                            Click="btnStartScan_Click"/>
                 </StackPanel>
+            </Border>
 
-                <!-- Scan Button -->
-                <Button x:Name="btnStartScan"
-                        Content="Start Scan"
-                        Width="120"
-                        Height="30"
-                        Margin="0,15,0,0"
-                        HorizontalAlignment="Center"
-                        Click="btnStartScan_Click"/>
-            </StackPanel>
-
-            <!-- Last 15 Days Section -->
-            <StackPanel Grid.Row="2" Margin="0,10,0,0">
-                <TextBlock Text="Last 15 Days Scan Results" 
-                         FontSize="16" 
-                         Margin="0,0,0,5"/>
-                <DataGrid x:Name="scanHistoryGrid"
-                         AutoGenerateColumns="False"
-                         IsReadOnly="True"
-                         Height="200"
-                         Margin="0,5,0,0">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="150"/>
-                        <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}" Width="*"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
-                        <DataGridTextColumn Header="Threats Found" Binding="{Binding ThreatsFound}" Width="100"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
+            <!-- Scan History Section -->
+            <Border Grid.Row="2" 
+                    Background="White" 
+                    CornerRadius="8" 
+                    Padding="20"
+                    BorderThickness="1"
+                    BorderBrush="#E0E0E0">
+                <StackPanel>
+                    <TextBlock Text="Scan History" 
+                             FontSize="18" 
+                             FontWeight="SemiBold"
+                             Margin="0,0,0,15"/>
+                    <DataGrid x:Name="scanHistoryGrid"
+                             AutoGenerateColumns="False"
+                             IsReadOnly="True"
+                             Height="250"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             GridLinesVisibility="None"
+                             RowBackground="Transparent"
+                             AlternatingRowBackground="#F5F5F5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd/MM/yyyy HH:mm}" Width="150"/>
+                            <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}" Width="*"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTextColumn Header="Threats Found" Binding="{Binding ThreatsFound}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
         </Grid>
 
         <!-- Footer Section -->
-        <StackPanel Grid.Row="2" Margin="10">
+        <Border Grid.Row="2" 
+                Background="White" 
+                CornerRadius="8" 
+                Padding="15"
+                Margin="0,20,0,0"
+                BorderThickness="1"
+                BorderBrush="#E0E0E0">
             <TextBlock Text="Status: Ready" 
-                     HorizontalAlignment="Center"/>
-        </StackPanel>
+                     HorizontalAlignment="Center"
+                     FontWeight="SemiBold"/>
+        </Border>
     </Grid>
 </Window>

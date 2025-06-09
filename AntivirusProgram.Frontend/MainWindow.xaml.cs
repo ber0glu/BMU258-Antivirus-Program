@@ -4,15 +4,122 @@ using Microsoft.Win32;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.IO;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace AntivirusProgram.Frontend
 {
-    public class ScanResult
+    public interface IScanService
     {
-        public DateTime Date { get; set; }
-        public string FilePath { get; set; }
-        public string Status { get; set; }
-        public int ThreatsFound { get; set; }
+        Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress);
+        Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress);
+    }
+
+    public class MockScanService : IScanService
+    {
+        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        {
+            // Simulate API call delay
+            await Task.Delay(1000);
+
+            // Report progress
+            progress.Report((0, 0, 1));
+            await Task.Delay(500);
+            progress.Report((50, 1, 1));
+            await Task.Delay(500);
+            progress.Report((100, 1, 1));
+
+            // Return mock result
+            return new ScanResult
+            {
+                Date = DateTime.Now,
+                FilePath = filePath,
+                Status = "Clean",
+                ThreatsFound = 0
+            };
+        }
+
+        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        {
+            var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+            var totalFiles = files.Length;
+            var processedFiles = 0;
+
+            // Simulate scanning each file
+            foreach (var file in files)
+            {
+                processedFiles++;
+                var progressPercentage = (int)((double)processedFiles / totalFiles * 100);
+                progress.Report((progressPercentage, processedFiles, totalFiles));
+                await Task.Delay(100); // Simulate API call delay
+            }
+
+            // Return mock result
+            return new ScanResult
+            {
+                Date = DateTime.Now,
+                FilePath = directoryPath,
+                Status = "Clean",
+                ThreatsFound = 0
+            };
+        }
+    }
+
+    public class ScanResult : INotifyPropertyChanged
+    {
+        private DateTime date;
+        private string filePath;
+        private string status;
+        private int threatsFound;
+
+        public DateTime Date
+        {
+            get => date;
+            set
+            {
+                date = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string FilePath
+        {
+            get => filePath;
+            set
+            {
+                filePath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Status
+        {
+            get => status;
+            set
+            {
+                status = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ThreatsFound
+        {
+            get => threatsFound;
+            set
+            {
+                threatsFound = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     /// <summary>
@@ -20,31 +127,20 @@ namespace AntivirusProgram.Frontend
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IScanService _scanService;
         private ObservableCollection<ScanResult> scanHistory;
+        private bool isScanning;
 
         public MainWindow()
         {
             InitializeComponent();
+            _scanService = new MockScanService(); // In the future, this will be injected
             InitializeScanHistory();
         }
 
         private void InitializeScanHistory()
         {
             scanHistory = new ObservableCollection<ScanResult>();
-            
-            // Add sample data for the last 15 days
-            var random = new Random();
-            for (int i = 14; i >= 0; i--)
-            {
-                scanHistory.Add(new ScanResult
-                {
-                    Date = DateTime.Now.AddDays(-i),
-                    FilePath = $"C:\\Sample\\File{i}.exe",
-                    Status = random.Next(2) == 0 ? "Clean" : "Threats Found",
-                    ThreatsFound = random.Next(5)
-                });
-            }
-
             scanHistoryGrid.ItemsSource = scanHistory;
         }
 
@@ -53,7 +149,9 @@ namespace AntivirusProgram.Frontend
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
             {
                 Title = "Select a file to scan",
-                Filter = "All files (*.*)|*.*"
+                Filter = "All files (*.*)|*.*",
+                CheckFileExists = true,
+                CheckPathExists = true
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -64,8 +162,11 @@ namespace AntivirusProgram.Frontend
 
         private void btnSelectDirectory_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.Description = "Select a directory to scan";
+            var dialog = new System.Windows.Forms.FolderBrowserDialog
+            {
+                Description = "Select a directory to scan",
+                ShowNewFolderButton = true
+            };
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -75,12 +176,25 @@ namespace AntivirusProgram.Frontend
 
         private async void btnStartScan_Click(object sender, RoutedEventArgs e)
         {
+            if (isScanning)
+            {
+                System.Windows.MessageBox.Show("A scan is already in progress.", "Scan in Progress", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (string.IsNullOrEmpty(txtSelectedPath.Text))
             {
                 System.Windows.MessageBox.Show("Please select a file or directory to scan first.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            if (!File.Exists(txtSelectedPath.Text) && !Directory.Exists(txtSelectedPath.Text))
+            {
+                System.Windows.MessageBox.Show("The selected path does not exist.", "Invalid Path", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            isScanning = true;
             btnStartScan.IsEnabled = false;
             btnSelectFile.IsEnabled = false;
             btnSelectDirectory.IsEnabled = false;
@@ -89,33 +203,14 @@ namespace AntivirusProgram.Frontend
 
             try
             {
-                // Simulate scanning process
-                await Task.Run(async () =>
-                {
-                    for (int i = 0; i <= 100; i += 10)
-                    {
-                        await Dispatcher.InvokeAsync(() =>
-                        {
-                            scanProgressBar.Value = i;
-                            txtProgressStatus.Text = $"Scanning... {i}%";
-                        });
-                        await Task.Delay(500); // Simulate work
-                    }
-                });
-
-                // Add new scan result
-                var random = new Random();
-                var newResult = new ScanResult
-                {
-                    Date = DateTime.Now,
-                    FilePath = txtSelectedPath.Text,
-                    Status = random.Next(2) == 0 ? "Clean" : "Threats Found",
-                    ThreatsFound = random.Next(5)
-                };
+                var progress = new Progress<(int progress, int processedItems, int totalItems)>(UpdateProgress);
+                var scanResult = File.Exists(txtSelectedPath.Text)
+                    ? await _scanService.ScanFileAsync(txtSelectedPath.Text, progress)
+                    : await _scanService.ScanDirectoryAsync(txtSelectedPath.Text, progress);
 
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    scanHistory.Insert(0, newResult);
+                    scanHistory.Insert(0, scanResult);
                     if (scanHistory.Count > 15)
                     {
                         scanHistory.RemoveAt(scanHistory.Count - 1);
@@ -123,7 +218,8 @@ namespace AntivirusProgram.Frontend
                 });
 
                 txtProgressStatus.Text = "Scan completed!";
-                System.Windows.MessageBox.Show("Scan completed successfully!", "Scan Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show($"Scan completed successfully!\nThreats found: {scanResult.ThreatsFound}", 
+                    "Scan Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -132,10 +228,17 @@ namespace AntivirusProgram.Frontend
             }
             finally
             {
+                isScanning = false;
                 btnStartScan.IsEnabled = true;
                 btnSelectFile.IsEnabled = true;
                 btnSelectDirectory.IsEnabled = true;
             }
+        }
+
+        private void UpdateProgress((int progress, int processedItems, int totalItems) progress)
+        {
+            scanProgressBar.Value = progress.progress;
+            txtProgressStatus.Text = $"Scanning... {progress.progress}% ({progress.processedItems}/{progress.totalItems} items)";
         }
     }
 }
