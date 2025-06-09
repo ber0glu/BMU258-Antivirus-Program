@@ -38,6 +38,11 @@ namespace AntivirusProgram.API.Controllers
                 return BadRequest("Hash değeri boş olamaz.");
             return StatusCode(201, await _service.FileHashRecordService.CreateVirusAsync(hash, fileName));
         }
+        [HttpGet("Sa")]
+        public async Task<IActionResult> CreateVirus()
+        {
+           return Ok("sa")
+        }
 
     }
 }
