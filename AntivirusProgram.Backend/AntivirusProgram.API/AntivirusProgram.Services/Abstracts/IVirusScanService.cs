@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AntivirusProgram.Services.Abstracts
 {
-    public interface IFileHashRecordService
+    public interface IVirusScanService
     {
-        void GetOneFileHashRecord(string hash, bool trackChanges);
-        void CreateFileHashRecord(FileHashRecord fileHashRecord);
+        Task<FileScanResult> GetOrCreateScanResultByHashAsync(string hash, bool trackChanges);
+        Task<FileScanResult> CreateVirusAsync(string hash, string? fileName = null);
     }
 }

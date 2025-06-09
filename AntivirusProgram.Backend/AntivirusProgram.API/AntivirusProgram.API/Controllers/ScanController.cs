@@ -1,6 +1,11 @@
-﻿using AntivirusProgram.Services.Abstracts;
+﻿using AntivirusProgram.Entities.Exceptions;
+using AntivirusProgram.Entities.Models;
+using AntivirusProgram.Services;
+using AntivirusProgram.Services.Abstracts;
+using AntivirusProgram.Services.Clients;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace AntivirusProgram.API.Controllers
 {
@@ -15,10 +20,24 @@ namespace AntivirusProgram.API.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{hash}")]
+        public async Task<IActionResult> GetScanResultByHash(string hash)
         {
-            return Ok("Test deneme");
+            if (string.IsNullOrWhiteSpace(hash))
+                return BadRequest("Hash değeri boş olamaz.");
+
+            var result = await _service.FileHashRecordService.GetOrCreateScanResultByHashAsync(hash, trackChanges: false);
+            if (result == null)
+                throw new NotFoundException("Dosya tarama sonucu bulunamadı.");
+            return Ok(result);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateVirus(string hash, string? fileName = null)
+        {
+            if (string.IsNullOrWhiteSpace(hash))
+                return BadRequest("Hash değeri boş olamaz.");
+            return StatusCode(201, await _service.FileHashRecordService.CreateVirusAsync(hash, fileName));
+        }
+
     }
 }

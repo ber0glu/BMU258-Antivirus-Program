@@ -12,11 +12,16 @@ namespace AntivirusProgram.Repositories.EFCore
     {
         public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
         
-        public DbSet<FileHashRecord> FileHashRecords { get; set; }
+        public DbSet<FileScanResult> FileScanResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //TODO: Burası Hash in uniq olmasını sağlar.
+            modelBuilder.Entity<FileScanResult>()
+               .HasIndex(f => f.FileHash)
+               .IsUnique();
         }
     }
 }

@@ -10,14 +10,16 @@ namespace AntivirusProgram.Services
 {
     public class ServiceManager : IServiceManager
     {
-        private readonly Lazy<IFileHashRecordService> _fileHashRecordService;
+        private readonly Lazy<IVirusScanService> _fileHashRecordService;
+        public IVirusTotalClient VirusTotalClient { get; }
 
 
-        public ServiceManager(IRepositoryManager repository)
+        public ServiceManager(IRepositoryManager repository, IVirusTotalClient virusTotalClient)
         {
-            _fileHashRecordService = new Lazy<IFileHashRecordService>(() => new FileHashRecordService(repository));
+            _fileHashRecordService = new Lazy<IVirusScanService>(() => new VirusScanService(repository,virusTotalClient));
+            VirusTotalClient = virusTotalClient;
         }
 
-        public IFileHashRecordService FileHashRecordService => _fileHashRecordService.Value;
+        public IVirusScanService FileHashRecordService => _fileHashRecordService.Value;
     }
 }
