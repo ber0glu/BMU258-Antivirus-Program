@@ -41,7 +41,7 @@ namespace AntivirusProgram.API.Controllers
         [HttpGet("Sa")]
         public async Task<IActionResult> CreateVirus()
         {
-           return Ok("sa")
+           return Ok("sa");
         }
 
     }
