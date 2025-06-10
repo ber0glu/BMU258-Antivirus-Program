@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AntivirusProgram.Presentation\AntivirusProgram.Presentation.csproj" />
     <ProjectReference Include="..\AntivirusProgram.Repositories\AntivirusProgram.Repositories.csproj" />
     <ProjectReference Include="..\AntivirusProgram.Services\AntivirusProgram.Services.csproj" />
   </ItemGroup>

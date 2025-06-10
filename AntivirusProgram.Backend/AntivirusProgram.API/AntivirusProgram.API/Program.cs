@@ -1,9 +1,11 @@
 using AntivirusProgram.API.Extensions;
+using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Controller ve Swagger servisleri ekleniyor
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(AntivirusProgram.Presentation.AssemblyReference).Assembly);
 builder.Services.AddSwaggerGen();
 
 // CORS politikasý tanýmlanýyor - tüm origin, method ve header izinli
