@@ -10,15 +10,15 @@ namespace AntivirusProgram.Repositories.EFCore
     public class RepositoryManager : IRepositoryManager
     {
         private readonly RepositoryContext _context;
-        private readonly Lazy<IFileHashRecordRepository> hashRepository;
+        private readonly Lazy<IVirusRepository> hashRepository;
 
         public RepositoryManager(RepositoryContext context)
         {
             _context = context;
-            hashRepository = new Lazy<IFileHashRecordRepository>(() => new FileHashRecordRepository(_context));
+            hashRepository = new Lazy<IVirusRepository>(() => new VirusRepository(_context));
         }
 
-        public IFileHashRecordRepository FileHashRecordRepository => hashRepository.Value;
+        public IVirusRepository VirusRepository => hashRepository.Value;
         public async Task SaveAsync() => await _context.SaveChangesAsync();
     }
 }

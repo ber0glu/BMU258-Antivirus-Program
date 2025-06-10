@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ErrorModels\" />
-    <Folder Include="Exeptions\" />
+    <Compile Remove="ErrorModels\**" />
+    <Compile Remove="Exeptions\**" />
+    <EmbeddedResource Remove="ErrorModels\**" />
+    <EmbeddedResource Remove="Exeptions\**" />
+    <None Remove="ErrorModels\**" />
+    <None Remove="Exeptions\**" />
   </ItemGroup>
 
 </Project>

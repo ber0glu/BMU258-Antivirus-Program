@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AntivirusProgram.Services.Abstracts
 {
-    public interface IFileHashRecordService
+    public interface IVirusTotalClient
     {
-        void GetOneFileHashRecord(string hash, bool trackChanges);
-        void CreateFileHashRecord(FileHashRecord fileHashRecord);
+        Task<VirusTotalResult> QueryHashAsync(string sha256);
     }
 }

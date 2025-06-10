@@ -8,7 +8,8 @@ namespace AntivirusProgram.Services.Abstracts
 {
     public interface IServiceManager
     {
-        IFileHashRecordService FileHashRecordService { get; }
+        IVirusScanService FileHashRecordService { get; }
+        IVirusTotalClient VirusTotalClient { get; }
 
     }
 }
