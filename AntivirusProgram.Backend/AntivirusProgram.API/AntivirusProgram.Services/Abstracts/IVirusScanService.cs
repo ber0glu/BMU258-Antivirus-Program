@@ -11,5 +11,6 @@ namespace AntivirusProgram.Services.Abstracts
     {
         Task<FileScanResult> GetOrCreateScanResultByHashAsync(string hash, bool trackChanges);
         Task<FileScanResult> CreateVirusAsync(string hash, string? fileName = null);
+        Task DeleteAllHashs();
     }
 }

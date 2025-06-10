@@ -44,5 +44,12 @@ namespace AntivirusProgram.API.Controllers
            return Ok("sa");
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAllHash()
+        {
+            await _service.FileHashRecordService.DeleteAllHashs();
+            return StatusCode(201);
+        }
+
     }
 }

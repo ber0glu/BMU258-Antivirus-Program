@@ -86,5 +86,14 @@ namespace AntivirusProgram.Services
             await repositoryManager.SaveAsync();
             return newRecord;
         }
+
+        public async Task DeleteAllHashs()
+        {
+            var allhash = await repositoryManager.VirusRepository.GetAllFileScanResultsAsync(true);
+            foreach (var item in allhash)
+                repositoryManager.VirusRepository.DeleteFileScanResult(item);
+            await repositoryManager.SaveAsync();
+
+        }
     }
 }
