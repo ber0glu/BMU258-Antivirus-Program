@@ -9,4 +9,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AntivirusProgram.Core\AntivirusProgram.Core\AntivirusProgram.Core.csproj" />
+  </ItemGroup>
+
 </Project>

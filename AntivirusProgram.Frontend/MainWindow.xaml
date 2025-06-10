@@ -40,12 +40,12 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="#333333"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
-        
+
         <Style TargetType="TextBox">
             <Setter Property="Padding" Value="10"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -65,7 +65,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="ProgressBar">
             <Setter Property="Background" Value="#E0E0E0"/>
             <Setter Property="Foreground" Value="#007ACC"/>
@@ -150,7 +150,7 @@
                              FontSize="18" 
                              FontWeight="SemiBold"
                              Margin="0,0,0,15"/>
-                    
+
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                         <Button x:Name="btnSelectFile" 
                                 Content="Select File" 
@@ -159,17 +159,18 @@
                         <Button x:Name="btnSelectDirectory" 
                                 Content="Select Directory"
                                 Click="btnSelectDirectory_Click"/>
+                        <Button x:Name="FastScan" Content="Fast Scan" Margin="10,0,0,0"/>
                     </StackPanel>
 
                     <TextBlock Text="Selected Path:" 
                              Margin="0,0,0,5"/>
                     <TextBox x:Name="txtSelectedPath" 
-                            IsReadOnly="True"
-                            Height="30"
-                            Margin="0,0,0,15"
-                            TextWrapping="Wrap"
-                            VerticalScrollBarVisibility="Auto"/>
-                    
+                             IsReadOnly="True"
+                             Height="30"
+                             Margin="0,0,0,15"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"/>
+
                     <!-- Progress Section -->
                     <StackPanel Margin="0,20,0,0">
                         <TextBlock Text="Scan Progress" 

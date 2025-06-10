@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\AntivirusProgram.Backend",
-    "\\AntivirusProgram.Backend\\AntivirusProgram.API",
-    "\\AntivirusProgram.Backend\\AntivirusProgram.API\\AntivirusProgram.API"
+    "\\AntivirusProgram.Frontend"
   ],
-  "SelectedNode": "\\AntivirusProgram.Backend\\AntivirusProgram.API\\AntivirusProgram.API.sln",
+  "SelectedNode": "\\AntivirusProgram.Frontend",
   "PreviewInSolutionExplorer": false
 }
