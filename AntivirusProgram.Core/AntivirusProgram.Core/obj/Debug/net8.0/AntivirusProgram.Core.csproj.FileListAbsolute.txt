@@ -22,3 +22,15 @@ C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\Antiv
 C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\refint\AntivirusProgram.Core.dll
 C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.pdb
 C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\ref\AntivirusProgram.Core.dll
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\bin\Debug\net8.0\AntivirusProgram.Core.deps.json
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\bin\Debug\net8.0\AntivirusProgram.Core.dll
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\bin\Debug\net8.0\AntivirusProgram.Core.pdb
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.AssemblyInfoInputs.cache
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.AssemblyInfo.cs
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.csproj.CoreCompileInputs.cache
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.sourcelink.json
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.dll
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\refint\AntivirusProgram.Core.dll
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.pdb
+E:\GithubProjects\SonraSil\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\ref\AntivirusProgram.Core.dll

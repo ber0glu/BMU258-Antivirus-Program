@@ -176,6 +176,8 @@ namespace AntivirusProgram.Frontend
         {
             var prioritizer = new RiskPrioritizer();
             string fakeHash = Path.GetFileName(filePath);
+            fakeHash = fakeHash.Split('.')[0];
+
             prioritizer.AddFile(filePath, fakeHash);
             return await ProcessQueue(prioritizer, progress, 1, null, cancellationToken);
         }
