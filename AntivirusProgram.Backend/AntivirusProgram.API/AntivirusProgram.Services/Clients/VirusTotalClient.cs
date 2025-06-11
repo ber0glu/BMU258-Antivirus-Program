@@ -36,7 +36,7 @@ namespace AntivirusProgram.Services.Clients
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                throw new NotAVirusException("Virus Bulunamadı");
+                throw new NotAVirusException(sha256);
             }
 
             var jsonString = await response.Content.ReadAsStringAsync();
