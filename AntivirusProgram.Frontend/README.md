@@ -74,3 +74,9 @@ _scanService = new TestScanService("your-backend-url");
    - İşlenen dosya sayısını görüntüleyin
    - Gerekirse "Cancel Scan" ile taramayı iptal edin
 7. Tarama sonuçlarını ve geçmişini alt panelde görüntüleyin
+
+![Ekran görüntüsü 2025-06-11 124801](https://github.com/user-attachments/assets/f7741f71-4840-4598-aafd-b2b6cde95064)
+
+
+![Ekran görüntüsü 2025-06-11 143122](https://github.com/user-attachments/assets/691ccd57-500e-4c03-9adb-452968a734fc)
+
