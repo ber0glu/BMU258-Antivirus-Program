@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Threading;
 
 using AntivirusProgram.Core;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -17,25 +18,20 @@ namespace AntivirusProgram.Frontend
 {
     public interface IScanService
     {
-        Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress);
-        Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress);
+        Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken);
+        Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken);
     }
 
     public class MockScanService : IScanService
     {
-        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken)
         {
-            // Simulate API call delay
-            await Task.Delay(1000);
-
-            // Report progress
+            await Task.Delay(1000, cancellationToken);
             progress.Report((0, 0, 1));
-            await Task.Delay(500);
+            await Task.Delay(500, cancellationToken);
             progress.Report((50, 1, 1));
-            await Task.Delay(500);
+            await Task.Delay(500, cancellationToken);
             progress.Report((100, 1, 1));
-
-            // Return mock result
             return new ScanResult
             {
                 Date = DateTime.Now,
@@ -45,22 +41,19 @@ namespace AntivirusProgram.Frontend
             };
         }
 
-        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken)
         {
             var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
             var totalFiles = files.Length;
             var processedFiles = 0;
-
-            // Simulate scanning each file
             foreach (var file in files)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 processedFiles++;
                 var progressPercentage = (int)((double)processedFiles / totalFiles * 100);
                 progress.Report((progressPercentage, processedFiles, totalFiles));
-                await Task.Delay(100); // Simulate API call delay
+                await Task.Delay(100, cancellationToken);
             }
-
-            // Return mock result
             return new ScanResult
             {
                 Date = DateTime.Now,
@@ -79,15 +72,15 @@ namespace AntivirusProgram.Frontend
             _apiBaseUrl = apiBaseUrl;
         }
 
-        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken)
         {
             var prioritizer = new RiskPrioritizer();
             string hash = FileHasher.GetFileSHA256(filePath);
             prioritizer.AddFile(filePath, hash);
-            return await ProcessQueue(prioritizer, progress, 1);
+            return await ProcessQueue(prioritizer, progress, 1, null, cancellationToken);
         }
 
-        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken)
         {
             var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
             var prioritizer = new RiskPrioritizer();
@@ -96,10 +89,10 @@ namespace AntivirusProgram.Frontend
                 string hash = FileHasher.GetFileSHA256(file);
                 prioritizer.AddFile(file, hash);
             }
-            return await ProcessQueue(prioritizer, progress, files.Length, directoryPath);
+            return await ProcessQueue(prioritizer, progress, files.Length, directoryPath, cancellationToken);
         }
 
-        private async Task<ScanResult> ProcessQueue(RiskPrioritizer prioritizer, IProgress<(int progress, int processedItems, int totalItems)> progress, int totalFiles, string directoryPath = null)
+        private async Task<ScanResult> ProcessQueue(RiskPrioritizer prioritizer, IProgress<(int progress, int processedItems, int totalItems)> progress, int totalFiles, string directoryPath = null, CancellationToken cancellationToken = default)
         {
             int processed = 0;
             int threatsFound = 0;
@@ -108,6 +101,7 @@ namespace AntivirusProgram.Frontend
             string lastFile = null;
             while (prioritizer.HasNext())
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var fileTask = prioritizer.GetNext();
                 lastFile = fileTask.FilePath;
                 string response = await apiClient.QueryHashAsync(fileTask.Hash);
@@ -178,15 +172,15 @@ namespace AntivirusProgram.Frontend
 
         // Geri kalan tüm kodlar (ScanFileAsync, ScanDirectoryAsync, ProcessQueue) olduğu gibi bırakıldı...
 
-        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        public async Task<ScanResult> ScanFileAsync(string filePath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken)
         {
             var prioritizer = new RiskPrioritizer();
             string fakeHash = Path.GetFileName(filePath);
             prioritizer.AddFile(filePath, fakeHash);
-            return await ProcessQueue(prioritizer, progress, 1);
+            return await ProcessQueue(prioritizer, progress, 1, null, cancellationToken);
         }
 
-        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress)
+        public async Task<ScanResult> ScanDirectoryAsync(string directoryPath, IProgress<(int progress, int processedItems, int totalItems)> progress, CancellationToken cancellationToken)
         {
             var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
             var prioritizer = new RiskPrioritizer();
@@ -196,10 +190,10 @@ namespace AntivirusProgram.Frontend
                 fakeHash = fakeHash.Split('.')[0];
                 prioritizer.AddFile(file, fakeHash);
             }
-            return await ProcessQueue(prioritizer, progress, files.Length, directoryPath);
+            return await ProcessQueue(prioritizer, progress, files.Length, directoryPath, cancellationToken);
         }
 
-        private async Task<ScanResult> ProcessQueue(RiskPrioritizer prioritizer, IProgress<(int progress, int processedItems, int totalItems)> progress, int totalFiles, string directoryPath = null)
+        private async Task<ScanResult> ProcessQueue(RiskPrioritizer prioritizer, IProgress<(int progress, int processedItems, int totalItems)> progress, int totalFiles, string directoryPath = null, CancellationToken cancellationToken = default)
         {
             int processed = 0;
             int threatsFound = 0;
@@ -208,6 +202,7 @@ namespace AntivirusProgram.Frontend
             string lastFile = null;
             while (prioritizer.HasNext())
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var fileTask = prioritizer.GetNext();
                 lastFile = fileTask.FilePath;
                 var (statusCode, response) = await apiClient.QueryHashWithStatusAsync(fileTask.Hash);
@@ -320,6 +315,7 @@ namespace AntivirusProgram.Frontend
         private readonly IScanService _scanService;
         private ObservableCollection<ScanResult> scanHistory;
         private bool isScanning;
+        private CancellationTokenSource scanCancellationTokenSource;
 
         public MainWindow()
         {
@@ -394,18 +390,27 @@ namespace AntivirusProgram.Frontend
             }
 
             isScanning = true;
+            txtStatus.Text = "Status: Busy";
             btnStartScan.IsEnabled = false;
             btnSelectFile.IsEnabled = false;
             btnSelectDirectory.IsEnabled = false;
+            btnCancelScan.Visibility = Visibility.Visible;
             txtProgressStatus.Text = "Scanning...";
             scanProgressBar.Value = 0;
+
+            scanCancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = scanCancellationTokenSource.Token;
+
+            string selectedPath = txtSelectedPath.Text;
 
             try
             {
                 var progress = new Progress<(int progress, int processedItems, int totalItems)>(UpdateProgress);
-                var scanResult = File.Exists(txtSelectedPath.Text)
-                    ? await _scanService.ScanFileAsync(txtSelectedPath.Text, progress)
-                    : await _scanService.ScanDirectoryAsync(txtSelectedPath.Text, progress);
+                ScanResult scanResult;
+                if (File.Exists(selectedPath))
+                    scanResult = await Task.Run(() => _scanService.ScanFileAsync(selectedPath, progress, cancellationToken), cancellationToken);
+                else
+                    scanResult = await Task.Run(() => _scanService.ScanDirectoryAsync(selectedPath, progress, cancellationToken), cancellationToken);
 
                 await Dispatcher.InvokeAsync(() =>
                 {
@@ -420,6 +425,11 @@ namespace AntivirusProgram.Frontend
                 System.Windows.MessageBox.Show($"Scan completed successfully!\nThreats found: {scanResult.ThreatsFound}", 
                     "Scan Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            catch (OperationCanceledException)
+            {
+                txtProgressStatus.Text = "Scan cancelled!";
+                System.Windows.MessageBox.Show("Scan was cancelled.", "Cancelled", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             catch (Exception ex)
             {
                 txtProgressStatus.Text = "Scan failed!";
@@ -428,9 +438,11 @@ namespace AntivirusProgram.Frontend
             finally
             {
                 isScanning = false;
+                txtStatus.Text = "Status: Ready";
                 btnStartScan.IsEnabled = true;
                 btnSelectFile.IsEnabled = true;
                 btnSelectDirectory.IsEnabled = true;
+                btnCancelScan.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -443,6 +455,24 @@ namespace AntivirusProgram.Frontend
         private void txtSelectedPath_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
 
+        }
+
+        private void btnCancelScan_Click(object sender, RoutedEventArgs e)
+        {
+            scanCancellationTokenSource?.Cancel();
+        }
+
+        private void ToggleThemeButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var darkTheme = new ResourceDictionary { Source = new Uri("Themes/DarkMode.xaml", UriKind.Relative) };
+            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(darkTheme);
+        }
+        private void ToggleThemeButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var lightTheme = new ResourceDictionary { Source = new Uri("Themes/LightMode.xaml", UriKind.Relative) };
+            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(lightTheme);
         }
     }
 }

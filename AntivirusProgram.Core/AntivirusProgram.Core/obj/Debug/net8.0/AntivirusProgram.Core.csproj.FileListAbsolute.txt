@@ -10,3 +10,15 @@ C:\Users\beratC\Desktop\BMU258-Antivirus-Program\AntivirusProgram.Core\Antivirus
 C:\Users\beratC\Desktop\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\refint\AntivirusProgram.Core.dll
 C:\Users\beratC\Desktop\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.pdb
 C:\Users\beratC\Desktop\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\ref\AntivirusProgram.Core.dll
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\bin\Debug\net8.0\AntivirusProgram.Core.deps.json
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\bin\Debug\net8.0\AntivirusProgram.Core.dll
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\bin\Debug\net8.0\AntivirusProgram.Core.pdb
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.AssemblyInfoInputs.cache
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.AssemblyInfo.cs
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.csproj.CoreCompileInputs.cache
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.sourcelink.json
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.dll
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\refint\AntivirusProgram.Core.dll
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\AntivirusProgram.Core.pdb
+C:\Users\ali65\Source\Repos\BMU258-Antivirus-Program\AntivirusProgram.Core\AntivirusProgram.Core\obj\Debug\net8.0\ref\AntivirusProgram.Core.dll
